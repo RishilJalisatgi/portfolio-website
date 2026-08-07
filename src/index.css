@@ -1,0 +1,212 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color: #1f1f1f;
+  background: #fafaf8;
+  font-family: "Inter", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: #fafaf8;
+  color: #1f1f1f;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+::selection {
+  background: #1f1f1f;
+  color: #fafaf8;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+}
+
+.page {
+  width: min(1200px, 92%);
+  margin: 0 auto;
+}
+
+.fade-page {
+  min-height: calc(100vh - 160px);
+}
+
+.nav-link {
+  position: relative;
+  padding-bottom: 3px;
+}
+
+.nav-link::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -2px;
+  width: 0%;
+  height: 1px;
+  background: #1f1f1f;
+  transition: width 0.25s ease;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+.hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  align-items: center;
+  gap: 5rem;
+  min-height: 72vh;
+}
+
+/* ===========================
+   Profile Section
+=========================== */
+
+.profile-section {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.profile-background {
+  position: absolute;
+  width: 600px;
+  transform: scale(1.6);
+  opacity: 0.18;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
+}
+
+.profile-placeholder {
+  position: relative;
+  z-index: 1;
+
+  width: 320px;
+  aspect-ratio: 1;
+
+  border-radius: 50%;
+  overflow: hidden;
+
+  border: 2px solid #ececec;
+  background: white;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+}
+
+.profile-placeholder img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ===========================
+   About Page
+=========================== */
+
+.about-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.about-image img {
+  width: 100%;
+  max-width: 340px;
+  object-fit: cover;
+
+  border-radius: 0;
+  box-shadow: none;
+  border: none;
+  background: transparent;
+}
+
+/* ===========================
+   Typography
+=========================== */
+
+.page-title {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.hero-title {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: clamp(2.8rem, 6vw, 4.5rem);
+  line-height: 1.1;
+  font-weight: 700;
+  margin: 0;
+}
+
+.hero-subtitle {
+  margin-top: 0.75rem;
+  color: #8a8a8a;
+  font-size: 1.1rem;
+}
+
+/* ===========================
+   Responsive
+=========================== */
+
+@media (max-width: 900px) {
+  .hero-grid {
+    grid-template-columns: 1fr;
+    text-align: center;
+    gap: 3rem;
+  }
+
+  .profile-section {
+    margin: 0 auto;
+  }
+
+  .profile-background {
+    width: min(380px, 90vw);
+    transform: none;
+  }
+
+  .profile-placeholder {
+    width: min(280px, 75vw);
+  }
+
+  .about-image {
+    margin-bottom: 2rem;
+  }
+
+  .about-image img {
+    max-width: 280px;
+  }
+
+  .page-title {
+    font-size: 2.2rem;
+  }
+}
