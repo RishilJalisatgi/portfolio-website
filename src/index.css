@@ -12,6 +12,12 @@
   box-sizing: border-box;
 }
 
+html,
+body,
+#root {
+  height: 100%;
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -20,13 +26,8 @@ body {
   margin: 0;
   background: #fafaf8;
   color: #1f1f1f;
-  min-height: 100vh;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
-}
-
-#root {
-  min-height: 100vh;
 }
 
 ::selection {
@@ -49,7 +50,10 @@ button {
 }
 
 .fade-page {
-  min-height: calc(100vh - 160px);
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .nav-link {
@@ -73,16 +77,20 @@ button {
   width: 100%;
 }
 
+/* ===========================
+   Home
+=========================== */
+
 .hero-grid {
+  flex: 1;
   display: grid;
   grid-template-columns: 1fr 420px;
   align-items: center;
   gap: 5rem;
-  min-height: 72vh;
 }
 
 /* ===========================
-   Profile Section
+   Profile
 =========================== */
 
 .profile-section {
@@ -129,7 +137,7 @@ button {
 }
 
 /* ===========================
-   About Page
+   About
 =========================== */
 
 .about-image {
@@ -142,11 +150,6 @@ button {
   width: 100%;
   max-width: 340px;
   object-fit: cover;
-
-  border-radius: 0;
-  box-shadow: none;
-  border: none;
-  background: transparent;
 }
 
 /* ===========================
@@ -199,7 +202,8 @@ button {
   }
 
   .about-image {
-    margin-bottom: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 0;
   }
 
   .about-image img {
