@@ -2,7 +2,7 @@ import { Github, Linkedin } from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="page py-8">
+    <footer className="page py-5">
       <div className="flex justify-center gap-8">
         <a
           href="https://github.com/RishilJalisatgi"
