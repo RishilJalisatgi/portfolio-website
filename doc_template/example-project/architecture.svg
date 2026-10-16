@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 240" font-family="Inter, sans-serif" font-size="16">
+  <rect width="640" height="240" fill="#fafaf8"/>
+  <g fill="#fff" stroke="#1f1f1f" stroke-width="1.5">
+    <rect x="30" y="85" width="140" height="70" rx="8"/>
+    <rect x="250" y="85" width="140" height="70" rx="8"/>
+    <rect x="470" y="85" width="140" height="70" rx="8"/>
+  </g>
+  <g fill="#1f1f1f" text-anchor="middle">
+    <text x="100" y="126">Input</text>
+    <text x="320" y="126">Model</text>
+    <text x="540" y="126">Output</text>
+  </g>
+  <g stroke="#4f7dff" stroke-width="2" fill="#4f7dff">
+    <line x1="170" y1="120" x2="240" y2="120"/><polygon points="250,120 238,114 238,126" stroke="none"/>
+    <line x1="390" y1="120" x2="460" y2="120"/><polygon points="470,120 458,114 458,126" stroke="none"/>
+  </g>
+</svg>
