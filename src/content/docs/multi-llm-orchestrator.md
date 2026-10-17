@@ -1,11 +1,14 @@
-# Multi-LLM Coding Orchestrator
+---
+title: Multi-LLM Coding Orchestrator
+summary: Technical guide to the orchestrator's workflow, setup, configuration, and operation.
+order: 3
+links: GitHub | https://github.com/RishilJalisatgiv/multi-llm-coding-orchestrator
+---
 
 > **Purpose:** A resource-aware software-development orchestrator that accepts a natural-language requirement, decides whether one model is sufficient or whether a competitive multi-model workflow is justified, benchmarks candidate coding models on a reduced task, then coordinates architecture, implementation, evaluation, review, and revision.
 
-**Documentation scope:** This guide describes the project represented by the supplied `orchestrator.zip` snapshot. It distinguishes implemented behavior from intended behavior and notes where provider integrations still require live validation. Configuration and implementation details may change as the project evolves.
-
-------------------------------------------------------------------------
-
+**Documentation scope:** This guide describes the project represented by this [repository](https://github.com/RishilJalisatgi/multi-llm-coding-orchestrator). Configuration and implementation details may change as the project evolves.
+---
 ## Contents
 
 1.  [Project Overview](#1-project-overview)
@@ -34,9 +37,7 @@
 24. [Security and Privacy Considerations](#24-security-and-privacy-considerations)
 25. [Known Limitations and Current Status](#25-known-limitations-and-current-status)
 26. [Glossary](#26-glossary)
-
-------------------------------------------------------------------------
-
+---
 ## 1. Project Overview
 
 The Multi-LLM Coding Orchestrator is a Python command-line application for coordinating AI systems that help build software. Instead of sending every request to several models, it first analyzes the task and selects a workflow appropriate to the task's complexity, available models, quotas, and expected value of comparison.
@@ -62,9 +63,7 @@ The system is designed to avoid unnecessary model calls. A straightforward utili
 -   **It is not** a replacement for human review, threat modeling, integration testing, or production release controls.
 -   **It does not automatically run every generated program.** Automatic execution is intentionally restricted.
 -   **It does not make a ChatGPT subscription equivalent to API access.** CLI subscription adapters, provider APIs, and local models have different authentication, availability, and terms.
-
-------------------------------------------------------------------------
-
+---
 ## 2. Goals and Design Principles
 
 ### 2.1 Primary goals
@@ -91,49 +90,29 @@ The system is designed to avoid unnecessary model calls. A straightforward utili
 ### 2.3 Non-goals for the current version
 
 The current project does not require a vector database, a full autonomous-agent framework, or MCP simply to perform its core workflow. Those technologies are not required by the core workflow. Repository indexing and context selection already have dedicated modules; these are not, by themselves, evidence that a vector database is necessary.
-
-------------------------------------------------------------------------
-
+---
 ## 3. Key Concepts
 
-  -----------------------------------------------------------------------
-Term                                Meaning ----------------------------------- ----------------------------------- Requirement                         The natural-language description supplied by the user.
-
-Task analysis                       An estimate of the task's category, complexity, size, and technical demands.
-
-Direct mode                         A single-model path without competitive benchmarking or a second reviewer.
-
-Orchestrated mode                   A multi-stage path that benchmarks candidates and uses an independent reviewer when available.
-
-Lite task / lite specification      A smaller task designed to preserve the important technical characteristics of the full request while being cheaper to implement and evaluate.
-
-Candidate                           A model/provider combination eligible to participate in the benchmark.
-
-Benchmark                           The process of generating candidate solutions and comparing their evaluated results.
-
-HLD                                 High-level design: system structure, components, interfaces, data flow, and implementation plan.
-
-Coder                               The model selected to implement the project.
-
-Reviewer                            A model or agent asked to inspect implementation quality and identify problems independently.
-
-Judge                               An optional model-based evaluator for qualitative or otherwise soft scoring dimensions.
-
-Hard gate                           A condition that must pass, such as a required test or critical safety check.
-
-Soft metric                         A qualitative score such as readability or architectural clarity.
-
-Quota window                        A provider-defined interval in which usage is limited or budgeted.
-
-Checkpoint                          Persisted project state/artifacts used to resume a workflow.
-
-Escalation                          A bounded attempt to use a different strategy or model when a blocker persists.
-
-Cooldown                            A wait period before a rate-limited or quota-limited model should be tried again.
-  -----------------------------------------------------------------------
-
-------------------------------------------------------------------------
-
+| Term | Meaning |
+|---|---|
+| Requirement | The natural-language description supplied by the user. |
+| Task analysis | An estimate of the task's category, complexity, size, and technical demands. |
+| Direct mode | A single-model path without competitive benchmarking or a second reviewer. |
+| Orchestrated mode | A multi-stage path that benchmarks candidates and uses an independent reviewer when available. |
+| Lite task / lite specification | A smaller task designed to preserve the important technical characteristics of the full request while being cheaper to implement and evaluate. |
+| Candidate | A model/provider combination eligible to participate in the benchmark. |
+| Benchmark | The process of generating candidate solutions and comparing their evaluated results. |
+| HLD | High-level design: system structure, components, interfaces, data flow, and implementation plan. |
+| Coder | The model selected to implement the project. |
+| Reviewer | A model or agent asked to inspect implementation quality and identify problems independently. |
+| Judge | An optional model-based evaluator for qualitative or otherwise soft scoring dimensions. |
+| Hard gate | A condition that must pass, such as a required test or critical safety check. |
+| Soft metric | A qualitative score such as readability or architectural clarity. |
+| Quota window | A provider-defined interval in which usage is limited or budgeted. |
+| Checkpoint | Persisted project state/artifacts used to resume a workflow. |
+| Escalation | A bounded attempt to use a different strategy or model when a blocker persists. |
+| Cooldown | A wait period before a rate-limited or quota-limited model should be tried again. |
+---
 ## 4. End-to-End Workflow
 
 The orchestrator's conceptual workflow is shown below.
@@ -209,9 +188,7 @@ If problems remain, the system may request a revision and repeat evaluation/revi
 ### Stage 9 --- Finalization
 
 The project artifacts, checkpoints, logs, and final report are stored under the project directory. The result status is translated to a CLI exit code.
-
-------------------------------------------------------------------------
-
+---
 ## 5. Architecture
 
 The project is organized into modules with relatively distinct responsibilities.
@@ -292,9 +269,7 @@ Context selection reduces irrelevant prompt content and helps manage context-win
 ### 5.12 `config/` --- settings
 
 `settings.py` loads and validates settings, including model configuration and overrides from `config/config.json`. Model names and capability values in configuration are operational inputs, not independently verified performance claims.
-
-------------------------------------------------------------------------
-
+---
 ## 6. Repository Layout
 
 The supplied archive contains the following principal structure:
@@ -357,9 +332,7 @@ orchestrator/
 ```
 
 The exact files present under a project depend on which stages ran and whether the workflow completed. The archive also contains Python bytecode caches (`__pycache__`) and a sample project with benchmark and revision artifacts. Bytecode caches are generated files and should not be treated as the source of truth.
-
-------------------------------------------------------------------------
-
+---
 ## 7. Requirements and Installation
 
 ### 7.1 Runtime
@@ -443,9 +416,7 @@ ollama serve
 ```
 
 Use a model name that matches the installed local model and the adapter's expectations. Hardware capacity, memory, model size, and inference speed determine whether a local model is suitable.
-
-------------------------------------------------------------------------
-
+---
 ## 8. Configuration
 
 Configuration has two related layers:
@@ -459,13 +430,11 @@ Prefer editing the JSON configuration for ordinary project-specific changes rath
 
 The supplied configuration contains:
 
-  -------------------------------------------------------------------------------
-Setting                                    Snapshot value Meaning ---------------------------- ---------------------------- --------------------- `max_review_iterations`                               `3` Maximum review/revision cycles before stopping or escalating.
-
-`max_benchmark_candidates`                            `3` Upper bound for the number of candidate models considered in a benchmark.
-
-`log_level`                                        `INFO` Default logging verbosity. The CLI can override it.
-  -------------------------------------------------------------------------------
+| Setting | Snapshot value | Meaning |
+|---|---:|---|
+| `max_review_iterations` | `3` | Maximum review/revision cycles before stopping or escalating. |
+| `max_benchmark_candidates` | `3` | Upper bound for the number of candidate models considered in a benchmark. |
+| `log_level` | `INFO` | Default logging verbosity. The CLI can override it. |
 
 These are snapshot values; inspect the implementation before assuming every setting affects every workflow path.
 
@@ -473,33 +442,21 @@ These are snapshot values; inspect the implementation before assuming every sett
 
 Each model entry typically identifies a logical model ID and provider/model name, and may include fields such as:
 
-  -----------------------------------------------------------------------
-Field                               Purpose ----------------------------------- ----------------------------------- `id`                                Stable identifier used inside the orchestrator.
-
-`provider`                          Adapter family, when explicitly specified.
-
-`model_name`                        Provider-side model identifier or local model name.
-
-`enabled`                           Explicitly enables or disables an entry where supported.
-
-`api_key_env`                       Environment variable containing the provider key.
-
-`base_url`                          Custom OpenAI-compatible endpoint, useful for compatible gateways.
-
-`capabilities`                      Configured estimates for coding, HLD, and review suitability.
-
-`token_budget_per_window`           Configured budget for a quota window.
-
-`window_seconds`                    Duration of that quota window in seconds.
-
-`requests_per_minute`               Configured request-rate ceiling, if supported by the adapter/resource manager.
-
-`max_output_tokens`                 Requested/allowed output limit for a model call.
-
-`cost_per_1k_input`                 Estimated cost per 1,000 input tokens, where applicable.
-
-`cost_per_1k_output`                Estimated cost per 1,000 output tokens, where applicable.
-  -----------------------------------------------------------------------
+| Field | Purpose |
+|---|---|
+| `id` | Stable identifier used inside the orchestrator. |
+| `provider` | Adapter family, when explicitly specified. |
+| `model_name` | Provider-side model identifier or local model name. |
+| `enabled` | Explicitly enables or disables an entry where supported. |
+| `api_key_env` | Environment variable containing the provider key. |
+| `base_url` | Custom OpenAI-compatible endpoint, useful for compatible gateways. |
+| `capabilities` | Configured estimates for coding, HLD, and review suitability. |
+| `token_budget_per_window` | Configured budget for a quota window. |
+| `window_seconds` | Duration of that quota window in seconds. |
+| `requests_per_minute` | Configured request-rate ceiling, if supported by the adapter/resource manager. |
+| `max_output_tokens` | Requested/allowed output limit for a model call. |
+| `cost_per_1k_input` | Estimated cost per 1,000 input tokens, where applicable. |
+| `cost_per_1k_output` | Estimated cost per 1,000 output tokens, where applicable. |
 
 Not every field is required for every provider. The settings loader determines accepted fields and defaults. Capability scores and cost values are estimates supplied by configuration; they should be tuned from observed results and verified pricing rather than treated as facts about model quality.
 
@@ -523,9 +480,7 @@ Not every field is required for every provider. The settings loader determines a
 ```
 
 This is an illustrative template, not a claim that a provider recognizes `provider-model-id`. Use the provider's current documented model identifier and the adapter name supported by this codebase.
-
-------------------------------------------------------------------------
-
+---
 ## 9. Environment Variables and Credentials
 
 The exact variables supported by the supplied snapshot are defined in `config/settings.py`, provider adapters, and `env.example`. Inspect those files before copying variable names from external examples.
@@ -568,9 +523,7 @@ python main.py --login codex --device-auth
 ```
 
 These commands rely on the relevant CLI being installed and on its own authentication mechanism. They do not convert a subscription into a general-purpose API key. Confirm the provider's terms, rate limits, and permitted automation use before relying on a subscription CLI for orchestration.
-
-------------------------------------------------------------------------
-
+---
 ## 10. Command-Line Interface
 
 Run commands from the extracted `orchestrator/` directory.
@@ -657,20 +610,15 @@ python main.py --quiet "Build a small Python package"
 
 ### 10.10 Exit codes
 
-  ------------------------------------------------------------------------
-Code Meaning               Typical action ---------------------------- --------------------- --------------------- `0` Completed             Inspect the final report and run project tests yourself.
-
-`1` Failed or needs       Read the final attention             report, state, review notes, and logs.
-
-`2` Paused/interrupted    Resume the project after addressing the pause reason.
-
-`3` Usage or setup error  Check CLI arguments, settings, model availability, credentials, and paths.
-  ------------------------------------------------------------------------
+| Code | Meaning | Typical action |
+|---:|---|---|
+| `0` | Completed | Inspect the final report and run project tests yourself. |
+| `1` | Failed or needs attention | Read the final report, state, review notes, and logs. |
+| `2` | Paused/interrupted | Resume the project after addressing the pause reason. |
+| `3` | Usage or setup error | Check CLI arguments, settings, model availability, credentials, and paths. |
 
 A zero exit code means the orchestrator reports completion; it does not guarantee production readiness.
-
-------------------------------------------------------------------------
-
+---
 ## 11. Model Providers and Adapters
 
 The `models/` package separates provider-specific request/response behavior from workflow logic.
@@ -693,23 +641,16 @@ When adding a provider, implement the common interface and ensure that the adapt
 
 ### 11.2 Provider modules in this snapshot
 
-  -----------------------------------------------------------------------
-Module                              Role ----------------------------------- ----------------------------------- `models/openai.py`                  OpenAI-compatible API adapter; may also support configured compatible endpoints.
-
-`models/claude.py`                  Anthropic API adapter.
-
-`models/gemini.py`                  Google GenAI adapter.
-
-`models/local.py`                   Local model integration, documented around Ollama.
-
-`models/claude_cli.py`              Claude subscription CLI integration.
-
-`models/codex_cli.py`               Codex subscription CLI integration.
-
-`models/cli_common.py`              Shared CLI authentication and process helpers.
-
-`models/__init__.py`                Registry/factory logic and adapter availability handling.
-  -----------------------------------------------------------------------
+| Module | Role |
+|---|---|
+| `models/openai.py` | OpenAI-compatible API adapter; may also support configured compatible endpoints. |
+| `models/claude.py` | Anthropic API adapter. |
+| `models/gemini.py` | Google GenAI adapter. |
+| `models/local.py` | Local model integration, documented around Ollama. |
+| `models/claude_cli.py` | Claude subscription CLI integration. |
+| `models/codex_cli.py` | Codex subscription CLI integration. |
+| `models/cli_common.py` | Shared CLI authentication and process helpers. |
+| `models/__init__.py` | Registry/factory logic and adapter availability handling. |
 
 Actual availability depends on configuration, installed SDKs/CLIs, authentication, provider access, and network/service state. `--models` is the practical runtime check.
 
@@ -724,9 +665,7 @@ Local models can reduce external API use and may improve privacy, but they consu
 ### 11.5 Adapter validation
 
 The repository README states that the project has been tested with scripted fake models against real orchestration components, while provider adapters had not yet been validated against live APIs in the supplied snapshot. Treat real-provider behavior as requiring smoke tests before a long run.
-
-------------------------------------------------------------------------
-
+---
 ## 12. Task Analysis and Routing
 
 The task analyzer supports the choice between direct and orchestrated execution.
@@ -772,9 +711,7 @@ A useful requirement should state:
 -   Any budget or latency constraints.
 
 Avoid putting secrets, personal data, production credentials, or confidential source material into prompts unless the provider and environment are approved for that data.
-
-------------------------------------------------------------------------
-
+---
 ## 13. Competitive Lite Benchmark
 
 The lite benchmark is the distinctive selection stage in the orchestrated workflow.
@@ -835,9 +772,7 @@ Historical results may save calls, but should only be reused when relevant. A se
 ### 13.6 Candidate count and costs
 
 The snapshot sets `max_benchmark_candidates` to three. More candidates may increase the chance of finding a strong implementation, but also increase latency and token consumption. Start small and expand only when observed quality improvements justify the cost.
-
-------------------------------------------------------------------------
-
+---
 ## 14. Architecture and Implementation
 
 ### 14.1 HLD artifact
@@ -872,26 +807,20 @@ projects/<project-id>/implementation/
 ```
 
 The generated project should contain its own run instructions and tests where appropriate. The orchestrator's final report and architecture/review artifacts are stored alongside the implementation rather than mixed into the generated source package.
-
-------------------------------------------------------------------------
-
+---
 ## 15. Evaluation and Scoring
 
 The `evaluation/` package is responsible for gathering evidence about generated code and turning it into a result usable by the orchestrator.
 
 ### 15.1 Evaluation components
 
-  -----------------------------------------------------------------------
-Module                              Responsibility ----------------------------------- ----------------------------------- `evaluation/evaluator.py`           Coordinates applicable checks and assembles evaluation results.
-
-`evaluation/tests.py`               Runs tests where supported and records outcomes.
-
-`evaluation/static_analysis.py`     Invokes available static-analysis tools and parses findings.
-
-`evaluation/runtime.py`             Performs limited runtime checks and gathers runtime/resource observations where safe.
-
-`evaluation/scoring.py`             Converts evaluation evidence into comparative scores.
-  -----------------------------------------------------------------------
+| Module | Responsibility |
+|---|---|
+| `evaluation/evaluator.py` | Coordinates applicable checks and assembles evaluation results. |
+| `evaluation/tests.py` | Runs tests where supported and records outcomes. |
+| `evaluation/static_analysis.py` | Invokes available static-analysis tools and parses findings. |
+| `evaluation/runtime.py` | Performs limited runtime checks and gathers runtime/resource observations where safe. |
+| `evaluation/scoring.py` | Converts evaluation evidence into comparative scores. |
 
 ### 15.2 Hard and soft signals
 
@@ -919,9 +848,7 @@ Before shipping generated code:
 -   Check concurrency, migrations, and failure recovery where relevant.
 -   Test deployment and rollback procedures.
 -   Verify requirements against actual behavior, not only generated documentation.
-
-------------------------------------------------------------------------
-
+---
 ## 16. Review, Revision, and Escalation
 
 ### 16.1 Independent review
@@ -948,9 +875,7 @@ Revision prompts should distinguish mandatory fixes from optional refactoring. T
 ### 16.4 Escalation
 
 If a blocking problem persists, a bounded escalation may switch model or strategy. Escalation should not become an unbounded chain of retries. If the blocker remains, the final status should explain it and identify the evidence needed to resolve it.
-
-------------------------------------------------------------------------
-
+---
 ## 17. Resource and Quota Management
 
 Resource awareness is a core design requirement because providers can enforce rate limits, usage caps, or time-window quotas.
@@ -985,9 +910,7 @@ Benchmark candidates should be limited when budget is low or the task is not lik
 ### 17.3 Wait versus fallback
 
 By default, the orchestrator may wait for a quota reset. With `--no-wait`, it pauses rather than sleeping until a quota resets. A fallback is appropriate only if another eligible model is available and its use does not violate the workflow's budget or quality constraints.
-
-------------------------------------------------------------------------
-
+---
 ## 18. Persistence, Resume, and Project Artifacts
 
 ### 18.1 Persistent locations
@@ -1003,27 +926,17 @@ Do not delete these locations while a project is running. Back them up before sc
 
 ### 18.2 Project artifacts
 
-A project directory may contain:
-
-  -----------------------------------------------------------------------
-Artifact                            Purpose ----------------------------------- ----------------------------------- `task_spec.json`                    Structured task or requirement specification.
-
-`architecture.md`                   HLD/design document.
-
-`benchmark/`                        Lite specification, candidate outputs, metadata, and benchmark results.
-
-`implementation/`                   Generated project source and its own tests/docs.
-
-`reviews/`                          Review findings and revision-round outputs.
-
-`checkpoints/`                      Persisted state snapshots at stage boundaries.
-
-`state.json`                        Current project status and workflow metadata.
-
-`final_report.md`                   Human-readable summary, outcome, and remaining issues.
-
-`decisions/` and `history/`         Additional decision/history artifacts where generated by a run.
-  -----------------------------------------------------------------------
+| Artifact | Purpose |
+|---|---|
+| `task_spec.json` | Structured task or requirement specification. |
+| `architecture.md` | HLD/design document. |
+| `benchmark/` | Lite specification, candidate outputs, metadata, and benchmark results. |
+| `implementation/` | Generated project source and its own tests/docs. |
+| `reviews/` | Review findings and revision-round outputs. |
+| `checkpoints/` | Persisted state snapshots at stage boundaries. |
+| `state.json` | Current project status and workflow metadata. |
+| `final_report.md` | Human-readable summary, outcome, and remaining issues. |
+| `decisions/` and `history/` | Additional decision/history artifacts where generated by a run. |
 
 Exact artifact names may vary with workflow progress and implementation changes.
 
@@ -1041,9 +954,7 @@ Before resuming, verify that credentials are still available and the configurati
 ### 18.4 Backups and portability
 
 For an important run, back up the project directory and relevant benchmark/state data. Treat provider credentials as separate secrets and do not include them in backups that will be shared. SQLite database compatibility and state schema compatibility should be considered before moving data between versions of the orchestrator.
-
-------------------------------------------------------------------------
-
+---
 ## 19. Logging and Decision Traceability
 
 ### 19.1 Logs
@@ -1081,9 +992,7 @@ For a failed run, inspect information in this order:
 6.  `data/logs/decisions.jsonl`.
 
 Avoid logging API keys, raw authorization headers, or sensitive user source code unless explicitly necessary and appropriately protected.
-
-------------------------------------------------------------------------
-
+---
 ## 20. Execution Safety
 
 Generated code must be treated as untrusted. It may be incorrect, destructive, insecure, or intentionally malicious if the requirement or model output is compromised.
@@ -1118,9 +1027,7 @@ Do not automatically run generated code that performs filesystem changes, manage
 ### 20.4 Dependency safety
 
 Generated projects may include malicious or compromised dependencies. Review dependency names and versions, lock dependencies where possible, inspect install scripts, and use vulnerability scanning before executing or deploying the result.
-
-------------------------------------------------------------------------
-
+---
 ## 21. Testing and Validation
 
 ### 21.1 Module self-tests
@@ -1169,9 +1076,7 @@ Scripted fake models are useful for deterministic tests, but they cannot validat
 ### 21.5 Reproducibility
 
 Record the configuration, Python version, dependency versions, provider/model identifiers, scoring version, and evaluation tool versions for benchmark runs. Without these details, historical comparisons may be misleading.
-
-------------------------------------------------------------------------
-
+---
 ## 22. Operational Runbooks
 
 ### Runbook A --- First-time setup
@@ -1241,9 +1146,7 @@ If resuming fails, inspect the project's state/checkpoint files and application 
 5.  Review scoring weights and missing-metric handling.
 6.  Confirm whether a historical benchmark was reused.
 7.  Re-run with a fresh benchmark if the cached result is not relevant.
-
-------------------------------------------------------------------------
-
+---
 ## 23. Troubleshooting
 
 ### `No model is usable`
@@ -1291,9 +1194,7 @@ Check that the project ID is exact, state files are valid, and the configuration
 ### Results differ between runs
 
 Model generation is nondeterministic in many environments. Provider versions, sampling parameters, context, dependency versions, benchmark cache reuse, test ordering, and resource conditions may all affect results. Compare artifacts and decision logs rather than only final scores.
-
-------------------------------------------------------------------------
-
+---
 ## 24. Security and Privacy Considerations
 
 ### Secrets
@@ -1323,9 +1224,7 @@ Logs, benchmark outputs, project state, and source code may contain sensitive de
 ### Human approval gates
 
 For deployments, database changes, destructive filesystem operations, external communications, or production credentials, require an explicit human approval step. The orchestrator's current CLI workflow should not be treated as a deployment authorization system.
-
-------------------------------------------------------------------------
-
+---
 ## 25. Known Limitations and Current Status
 
 The following points are grounded in the supplied repository snapshot and should be rechecked as the code evolves.
@@ -1341,9 +1240,7 @@ The following points are grounded in the supplied repository snapshot and should
 9.  **Provider quotas are not necessarily fully observable.** Local tracking may be approximate and should not be assumed to reflect authoritative provider usage.
 10. **The project is CLI-oriented.** The supplied snapshot documents a command-line entry point rather than a web UI.
 11. **MCP, vector databases, and agent frameworks are optional extensions, not prerequisites.** Add them only when a concrete integration or capability requires them.
-
-------------------------------------------------------------------------
-
+---
 ## 26. Glossary
 
 -   **API adapter:** Code that translates the orchestrator's common model interface into a provider-specific API call.
@@ -1358,9 +1255,7 @@ The following points are grounded in the supplied repository snapshot and should
 -   **Reviewer:** A model role that critiques the implementation and proposes corrections.
 -   **Soft metric:** A qualitative or subjective evaluation dimension.
 -   **State manager:** The component that persists project status and supports resuming a workflow.
-
-------------------------------------------------------------------------
-
+---
 ## Appendix A --- Quick Reference
 
 ``` bash
