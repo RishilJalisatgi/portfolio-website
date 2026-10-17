@@ -1,13 +1,36 @@
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
-import ReactMarkdown from "react-markdown";
+import ReactMarkdown, { type Components } from "react-markdown";
 import rehypeRaw from "rehype-raw";
 import rehypeSlug from "rehype-slug";
 import remarkGfm from "remark-gfm";
 
 import DocsSidebar from "../components/DocsSidebar";
+import Mermaid from "../components/Mermaid";
 import { getProject, projects } from "../lib/docs";
+
+/** ```mermaid blocks become diagrams; every other code block renders as usual. */
+const markdownComponents: Components = {
+  pre({ node, children, ...props }) {
+    const code = node?.children?.[0] as
+      | { properties?: { className?: string[] } }
+      | undefined;
+    if (code?.properties?.className?.includes("language-mermaid")) return <>{children}</>;
+    return <pre {...props}>{children}</pre>;
+  },
+  code({ node, className, children, ...props }) {
+    void node;
+    if (className?.includes("language-mermaid")) {
+      return <Mermaid chart={String(children).replace(/\n$/, "")} />;
+    }
+    return (
+      <code className={className} {...props}>
+        {children}
+      </code>
+    );
+  },
+};
 
 export default function Documentation() {
   const { slug } = useParams();
@@ -90,6 +113,7 @@ export default function Documentation() {
               <ReactMarkdown
                 remarkPlugins={[remarkGfm]}
                 rehypePlugins={[rehypeRaw, rehypeSlug]}
+                components={markdownComponents}
               >
                 {project.body}
               </ReactMarkdown>
